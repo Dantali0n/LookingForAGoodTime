@@ -9,6 +9,11 @@
 *.dll
 *.dylib
 
+# Cmake
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+
 # Qt-es
 object_script.*.Release
 object_script.*.Debug
@@ -21,6 +26,7 @@ object_script.*.Debug
 *.qbs.user.*
 *.moc
 moc_*.cpp
+moc_*.cpp_parameters
 moc_*.h
 qrc_*.cpp
 ui_*.h
