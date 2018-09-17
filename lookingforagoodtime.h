@@ -2,6 +2,7 @@
 #define LOOKINGFORAGOODTIME_H
 
 #include <QMainWindow>
+#include <QKeyEvent>
 
 namespace Ui {
 class LookingForAGoodTime;
@@ -14,7 +15,8 @@ class LookingForAGoodTime : public QMainWindow
 public:
     explicit LookingForAGoodTime(QWidget *parent = nullptr);
     ~LookingForAGoodTime();
-
+protected:
+    void keyPressEvent(QKeyEvent *);
 private:
     Ui::LookingForAGoodTime *ui;
 };

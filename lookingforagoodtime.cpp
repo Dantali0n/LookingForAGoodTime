@@ -12,3 +12,16 @@ LookingForAGoodTime::~LookingForAGoodTime()
 {
     delete ui;
 }
+
+void LookingForAGoodTime::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_A)
+    {
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex()-1);
+    }
+
+    if(event->key() == Qt::Key_D)
+    {
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex()+1);
+    }
+}
