@@ -25,3 +25,11 @@ void LookingForAGoodTime::keyPressEvent(QKeyEvent *event)
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex()+1);
     }
 }
+
+/**
+ * @brief closes the application when the exit button is pressed.
+ */
+void LookingForAGoodTime::on_exitButton_clicked()
+{
+    quick_exit(0);
+}
