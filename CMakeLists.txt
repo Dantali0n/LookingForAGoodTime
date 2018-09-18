@@ -9,8 +9,11 @@ include(macros)
 # Enable c++11 even when cmake < 3.1
 use_cxx11()
 
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 # Find qt widgets
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(sqlite3 REQUIRED)
 
 set(LFGT_SOURCE
