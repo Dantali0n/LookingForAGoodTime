@@ -6,6 +6,7 @@ LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
     ui(new Ui::LookingForAGoodTime)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 LookingForAGoodTime::~LookingForAGoodTime()
@@ -31,5 +32,10 @@ void LookingForAGoodTime::keyPressEvent(QKeyEvent *event)
  */
 void LookingForAGoodTime::on_exitButton_clicked()
 {
-    quick_exit(0);
+    QCoreApplication::quit();
+}
+
+void LookingForAGoodTime::on_freePlayButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
 }

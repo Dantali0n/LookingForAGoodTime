@@ -20,6 +20,8 @@ protected:
 private slots:
     void on_exitButton_clicked();
 
+    void on_freePlayButton_clicked();
+
 private:
     Ui::LookingForAGoodTime *ui;
 };

@@ -36,7 +36,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="mainMenu">
        <property name="sizePolicy">
@@ -53,16 +53,6 @@
          <widget class="QPushButton" name="highscoresButton">
           <property name="text">
            <string>HighScores</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
-         <widget class="QPushButton" name="challengeButton">
-          <property name="text">
-           <string>Challenges</string>
-          </property>
-          <property name="margin" stdset="0">
-           <number>0</number>
           </property>
          </widget>
         </item>
@@ -100,10 +90,10 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
-         <widget class="QPushButton" name="freePlayButton">
+        <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
+         <widget class="QPushButton" name="challengeButton">
           <property name="text">
-           <string>Free Play</string>
+           <string>Challenges</string>
           </property>
           <property name="margin" stdset="0">
            <number>0</number>
@@ -135,9 +125,33 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
+         <widget class="QPushButton" name="freePlayButton">
+          <property name="text">
+           <string>Free Play</string>
+          </property>
+          <property name="margin" stdset="0">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="gameMenu"/>
+      <widget class="QWidget" name="freePlay">
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>100</y>
+          <width>114</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </widget>
       <widget class="QWidget" name="highscoreMenu"/>
       <widget class="QWidget" name="modeMenu"/>
      </widget>
