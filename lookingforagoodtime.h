@@ -2,6 +2,7 @@
 #define LOOKINGFORAGOODTIME_H
 
 #include <QMainWindow>
+#include "analogclock.h"
 
 namespace Ui {
 class LookingForAGoodTime;

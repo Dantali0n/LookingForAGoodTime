@@ -24,10 +24,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        lookingforagoodtime.cpp
+        lookingforagoodtime.cpp \
+        analogclock.cpp
 
 HEADERS += \
-        lookingforagoodtime.h
+        lookingforagoodtime.h \
+        analogclock.h
 
 FORMS += \
         lookingforagoodtime.ui

@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     LookingForAGoodTime w;
-    w.show();
 
+    w.show();
     return a.exec();
 }
