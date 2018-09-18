@@ -11,6 +11,8 @@ int pageIndex = 0;
 QLabel* labels[12];
 bool isDragging;
 QLabel* currentLabel;
+int currentIndex;
+int labelpos[2];
 
 LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
     QMainWindow(parent),
@@ -88,6 +90,9 @@ void LookingForAGoodTime::paintEvent(QPaintEvent *event)
             labels[i]->setGeometry(x + x1 - size, y + y1 - size, size, size);
         }
 
+        ui->but_1->setGeometry(labels[labelpos[0]]->geometry().center().x() - ui->but_1->geometry().width() / 2, labels[labelpos[0]]->geometry().center().y() - ui->but_1->geometry().height() / 2, ui->but_1->geometry().width(), ui->but_1->geometry().height());
+        ui->but_2->setGeometry(labels[labelpos[1]]->geometry().center().x() - ui->but_2->geometry().width() / 2, labels[labelpos[1]]->geometry().center().y() - ui->but_2->geometry().height() / 2, ui->but_2->geometry().width(), ui->but_2->geometry().height());
+
         // Draw the big and small lines
         QPainter painter(this);
 
@@ -119,9 +124,11 @@ void LookingForAGoodTime::mousePressEvent(QMouseEvent* event)
 
     if (hitboxOne.contains(pos)) {
         currentLabel = ui->but_1;
+        currentIndex = 0;
         isDragging = true;
     } else if (hitboxTwo.contains(pos)) {
         currentLabel = ui->but_2;
+        currentIndex = 1;
         isDragging = true;
     }
 
@@ -140,6 +147,7 @@ void LookingForAGoodTime::onMouseEvent(const QString &eventName, const QPoint &p
         QRect hitbox = QRect(labels[i]->geometry().x() + labels[i]->geometry().width() / 2, labels[i]->geometry().y() + labels[i]->geometry().height() / 1.5, labels[i]->geometry().width(), labels[i]->geometry().height());
 
         if (hitbox.contains(pos)) {
+            labelpos[currentIndex] = i;
             currentLabel->setGeometry(labels[i]->geometry().center().x() - currentLabel->geometry().width() / 2, labels[i]->geometry().center().y() - currentLabel->geometry().height() / 2, currentLabel->geometry().width(), currentLabel->geometry().height());
         }
     }
