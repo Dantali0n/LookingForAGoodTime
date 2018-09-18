@@ -1,8 +1,10 @@
-#include "lookingforagoodtime.h"
-#include "ui_lookingforagoodtime.h"
 #include <QMouseEvent>
 #include <QPainter>
 #include <math.h>
+
+#include "lookingforagoodtime.h"
+#include "ui_lookingforagoodtime.h"
+#include "highscoreservice.h"
 
 // General
 int pageIndex = 0;
@@ -17,6 +19,8 @@ LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
     ui(new Ui::LookingForAGoodTime)
 {
     ui->setupUi(this);    
+
+    HighscoreService hs = HighscoreService();
 
     // Create Analog Clock
     QRect mainRect = ui->stackedWidget->geometry();

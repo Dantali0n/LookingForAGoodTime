@@ -24,10 +24,14 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        lookingforagoodtime.cpp
+        lookingforagoodtime.cpp \
+        highscoreservice.cpp
 
 HEADERS += \
-        lookingforagoodtime.h
+        lookingforagoodtime.h \
+    highscoredto.h \
+    highscoreservice.h \
+    highscoremodel.h
 
 FORMS += \
         lookingforagoodtime.ui
