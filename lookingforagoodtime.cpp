@@ -7,12 +7,24 @@
 // General
 int pageIndex = 0;
 
-// Free Play
-QLabel* labels[12];
+// The clock arm which is/was being dragged.
+QLabel* currentClockArm;
+
+// Constants
+const double CONST_PI = 3.1415926535;
+const int CONST_RADIUS = 100;
+const int CONST_SIZE = 30;
+
+// Holds the Labels with the numbers of the clock from 1 to 12
+QLabel* clockNumberLabels[12];
+
+// Determines if the user is dragging any clockarm
 bool isDragging;
-QLabel* currentLabel;
-int currentIndex;
-int labelpos[2];
+
+// The coordinates of the end of the clock hands
+QPoint clockHandBigRectPoint;
+QPoint clockHandSmallRectPoint;
+
 
 LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
     QMainWindow(parent),
@@ -20,15 +32,12 @@ LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
 {
     ui->setupUi(this);    
 
-    // Create Analog Clock
+    // Creates the analog clock numbers
     for (int i = 0; i < 12; i++) {
         QLabel *label = new QLabel(this);
-        label->setObjectName("label_" + QString::number(i + 1));
-        label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
         label->setText(QString::number(i + 1));
-        label->setAlignment(Qt::AlignCenter | Qt::AlignCenter);
         label->setParent(ui->freePlay);
-        labels[i] = label;
+        clockNumberLabels[i] = label;
     }
 
     // Set current page to menu
@@ -66,93 +75,118 @@ void LookingForAGoodTime::on_freePlayButton_clicked()
     ui->stackedWidget->setCurrentIndex(++pageIndex);
 }
 
+// Draw
 void LookingForAGoodTime::paintEvent(QPaintEvent *event)
 {
     // Update Free Play ui
     if (pageIndex == 1) {
+        const double PI = CONST_PI;
+        const int r = CONST_RADIUS;
+        const int size = CONST_SIZE;
 
-        // Update the position of the clock numbers
         QRect centralWidgetFrame = ui->centralWidget->geometry();
         int x = centralWidgetFrame.center().x();
         int y = centralWidgetFrame.center().y();
 
-        const double PI = 3.1415926535;
-        const int r = 100;
-        const int size = 30;
         double angle;
         double x1;
         double y1;
 
+        // Draw clock numbers
         for (int i = 0; i < 12; i++) {
             angle = (i + 1 + 9) * 360 / 12;
-            x1 = r * cos(angle * PI / 180);
-            y1 = r * sin(angle * PI / 180);
-            labels[i]->setGeometry(x + x1 - size, y + y1 - size, size, size);
+            x1 = (r + size/2) * cos(angle * PI / 180);
+            y1 = (r + size/2) * sin(angle * PI / 180);
+            clockNumberLabels[i]->setGeometry(x + x1 - size / 2, y + y1 - size * 1.25, size, size);
         }
 
-        ui->but_1->setGeometry(labels[labelpos[0]]->geometry().center().x() - ui->but_1->geometry().width() / 2, labels[labelpos[0]]->geometry().center().y() - ui->but_1->geometry().height() / 2, ui->but_1->geometry().width(), ui->but_1->geometry().height());
-        ui->but_2->setGeometry(labels[labelpos[1]]->geometry().center().x() - ui->but_2->geometry().width() / 2, labels[labelpos[1]]->geometry().center().y() - ui->but_2->geometry().height() / 2, ui->but_2->geometry().width(), ui->but_2->geometry().height());
-
-        // Draw the big and small lines
+        // Setup painter
         QPainter painter(this);
+        painter.drawEllipse(QPointF(x,y), 100, 100);
 
-        QRect butOneFrame = ui->but_1->geometry();
+        // Draw big clock hand
         painter.setPen(QPen(Qt::red, 5));
-        painter.drawLine(x, y, butOneFrame.center().x() + butOneFrame.width() / 2, butOneFrame.center().y() + butOneFrame.height());
+        painter.drawLine(x, y, clockHandBigRectPoint.x(), clockHandBigRectPoint.y());
 
-        QRect butTwoFrame = ui->but_2->geometry();
+        // Draw small clock hand
         painter.setPen(QPen(Qt::blue, 10));
-        painter.drawLine(x, y, (butTwoFrame.center().x() + butTwoFrame.width() / 2 + x) / 2, (butTwoFrame.center().y() + butTwoFrame.height() + y) / 2);
+        painter.drawLine(x, y, (clockHandSmallRectPoint.x() + x) / 2, (clockHandSmallRectPoint.y() + y) / 2);
     }
 }
 
+// Mouse Moving
 void LookingForAGoodTime::mouseMoveEvent(QMouseEvent* event)
 {
     if (isDragging) {
-        onMouseEvent("Move", event->pos());
+        // Calculates the position of the current arm
+        const double PI = CONST_PI;
+        const int r = CONST_RADIUS;
+        const int size = CONST_SIZE;
+
+        int sec = currentClockArm == ui->clockHandBig ? 60 : 60 * 60;
+
+        int mouseX = event->pos().x();
+        int mouseY = event->pos().y();
+
+        QRect centralWidgetFrame = ui->centralWidget->geometry();
+        int x = centralWidgetFrame.center().x();
+        int y = centralWidgetFrame.center().y();
+
+        double angle = atan2(x - mouseX, mouseY - y) + PI;
+        double denom = 2 * PI / sec;
+        int quot = angle / denom;
+        double rem = angle - quot * denom;
+
+        if (rem > PI / sec) {
+            quot++;
+        }
+
+        if (quot == sec) {
+            quot = 0;
+        }
+
+        int x1 = x - size / 1.5 + r * sin(quot * 2 * PI / sec);
+        int y1 = y - size * 1.25 - r * cos(quot * 2 * PI / sec);
+
+        currentClockArm->setGeometry(x1, y1, currentClockArm->geometry().width(), currentClockArm->geometry().height());
+
+        QPoint finalPoint = QPoint(x + r * sin(quot * 2 * PI / sec), y - r * cos(quot * 2 * PI / sec));
+        if (currentClockArm == ui->clockHandBig) {
+            clockHandBigRectPoint = finalPoint;
+        } else {
+            clockHandSmallRectPoint = finalPoint;
+        }
+
+        update();
     }
 
     QMainWindow::mouseMoveEvent(event);
 }
 
+// Mouse Press
 void LookingForAGoodTime::mousePressEvent(QMouseEvent* event)
 {
     QPoint pos = event->pos();
 
-    QRect hitboxOne = QRect(ui->but_1->geometry().x() + ui->but_1->geometry().width() / 2, ui->but_1->geometry().y() + ui->but_1->geometry().height(), ui->but_1->geometry().width() * 2, ui->but_1->geometry().height() * 2);
-    QRect hitboxTwo = QRect(ui->but_2->geometry().x() + ui->but_2->geometry().width() / 2, ui->but_2->geometry().y() + ui->but_2->geometry().height(), ui->but_2->geometry().width() * 2, ui->but_2->geometry().height() * 2);
+    QRect hitboxBig = QRect(ui->clockHandBig->geometry().x() + ui->clockHandBig->geometry().width() / 2, ui->clockHandBig->geometry().y() + ui->clockHandBig->geometry().height(), ui->clockHandBig->geometry().width() * 2, ui->clockHandBig->geometry().height() * 2);
+    QRect hitboxSmall = QRect(ui->clockHandSmall->geometry().x() + ui->clockHandSmall->geometry().width() / 2, ui->clockHandSmall->geometry().y() + ui->clockHandSmall->geometry().height(), ui->clockHandSmall->geometry().width() * 2, ui->clockHandSmall->geometry().height() * 2);
 
-    if (hitboxOne.contains(pos)) {
-        currentLabel = ui->but_1;
-        currentIndex = 0;
+    if (hitboxBig.contains(pos)) {
+        currentClockArm = ui->clockHandBig;
         isDragging = true;
-    } else if (hitboxTwo.contains(pos)) {
-        currentLabel = ui->but_2;
-        currentIndex = 1;
+    } else if (hitboxSmall.contains(pos)) {
+        currentClockArm = ui->clockHandSmall;
         isDragging = true;
     }
 
     QMainWindow::mousePressEvent(event);
 }
 
+// Mouse Release
 void LookingForAGoodTime::mouseReleaseEvent(QMouseEvent* event)
 {
     isDragging = false;
     QMainWindow::mouseReleaseEvent(event);
-}
-
-void LookingForAGoodTime::onMouseEvent(const QString &eventName, const QPoint &pos)
-{
-    for (int i = 0; i < 12; i++) {
-        QRect hitbox = QRect(labels[i]->geometry().x() + labels[i]->geometry().width() / 2, labels[i]->geometry().y() + labels[i]->geometry().height() / 1.5, labels[i]->geometry().width(), labels[i]->geometry().height());
-
-        if (hitbox.contains(pos)) {
-            labelpos[currentIndex] = i;
-            currentLabel->setGeometry(labels[i]->geometry().center().x() - currentLabel->geometry().width() / 2, labels[i]->geometry().center().y() - currentLabel->geometry().height() / 2, currentLabel->geometry().width(), currentLabel->geometry().height());
-        }
-    }
-//    currentLabel->setGeometry(pos.x() - currentLabel->geometry().width(), pos.y() - currentLabel->geometry().height() * 1.5, currentLabel->geometry().width(), currentLabel->geometry().height());
-    update();
 }
 
 void LookingForAGoodTime::on_pushButton_clicked()
