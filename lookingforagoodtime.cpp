@@ -19,32 +19,13 @@ LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
     ui->setupUi(this);    
 
     // Create Analog Clock
-    QRect mainRect = ui->stackedWidget->geometry();
-
-    const double PI = 3.1415926535;
-
-    // TODO: get correct center + responsive
-    int x = mainRect.center().x();
-    int y = mainRect.center().y();
-    int r = 100;
-
-    double angle;
-    double x1;
-    double y1;
-
     for (int i = 0; i < 12; i++) {
-        angle = (i + 1 + 9) * 360 / 12;
-        x1 = r * cos(angle * PI / 180);
-        y1 = r * sin(angle * PI / 180);
-
         QLabel *label = new QLabel(this);
         label->setObjectName("label_" + QString::number(i + 1));
         label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
         label->setText(QString::number(i + 1));
         label->setAlignment(Qt::AlignCenter | Qt::AlignCenter);
-        label->setGeometry(QRect(x + x1, y + y1, 25, 25));
         label->setParent(ui->freePlay);
-
         labels[i] = label;
     }
 
@@ -85,18 +66,38 @@ void LookingForAGoodTime::on_freePlayButton_clicked()
 
 void LookingForAGoodTime::paintEvent(QPaintEvent *event)
 {
-    // Draw the lines only in Free Play
+    // Update Free Play ui
     if (pageIndex == 1) {
-        QRect mainRect = ui->freePlay->geometry();
-        int mainWidth = mainRect.width();
-        int mainHeight = mainRect.height();
 
+        // Update the position of the clock numbers
+        QRect centralWidgetFrame = ui->centralWidget->geometry();
+        int x = centralWidgetFrame.center().x();
+        int y = centralWidgetFrame.center().y();
+
+        const double PI = 3.1415926535;
+        const int r = 100;
+        const int size = 30;
+        double angle;
+        double x1;
+        double y1;
+
+        for (int i = 0; i < 12; i++) {
+            angle = (i + 1 + 9) * 360 / 12;
+            x1 = r * cos(angle * PI / 180);
+            y1 = r * sin(angle * PI / 180);
+            labels[i]->setGeometry(x + x1 - size, y + y1 - size, size, size);
+        }
+
+        // Draw the big and small lines
         QPainter painter(this);
-        painter.setPen(QPen(Qt::red, 5));
-        painter.drawLine(mainWidth / 2, mainHeight / 2, ui->but_1->geometry().center().x(), ui->but_1->geometry().center().y());
 
+        QRect butOneFrame = ui->but_1->geometry();
+        painter.setPen(QPen(Qt::red, 5));
+        painter.drawLine(x, y, butOneFrame.center().x() + butOneFrame.width() / 2, butOneFrame.center().y() + butOneFrame.height());
+
+        QRect butTwoFrame = ui->but_2->geometry();
         painter.setPen(QPen(Qt::blue, 10));
-        painter.drawLine(mainWidth / 2, mainHeight / 2, (ui->but_2->geometry().center().x() + mainWidth / 2) / 2, (ui->but_2->geometry().center().y() + mainHeight / 2) / 2);
+        painter.drawLine(x, y, (butTwoFrame.center().x() + butTwoFrame.width() / 2 + x) / 2, (butTwoFrame.center().y() + butTwoFrame.height() + y) / 2);
     }
 }
 
@@ -111,12 +112,15 @@ void LookingForAGoodTime::mouseMoveEvent(QMouseEvent* event)
 
 void LookingForAGoodTime::mousePressEvent(QMouseEvent* event)
 {
-    QPoint pos = QPoint(event->pos().x(), event->pos().y() - ui->but_1->geometry().height());
+    QPoint pos = event->pos();
 
-    if (ui->but_1->geometry().contains(pos)) {
+    QRect hitboxOne = QRect(ui->but_1->geometry().x() + ui->but_1->geometry().width() / 2, ui->but_1->geometry().y() + ui->but_1->geometry().height(), ui->but_1->geometry().width() * 2, ui->but_1->geometry().height() * 2);
+    QRect hitboxTwo = QRect(ui->but_2->geometry().x() + ui->but_2->geometry().width() / 2, ui->but_2->geometry().y() + ui->but_2->geometry().height(), ui->but_2->geometry().width() * 2, ui->but_2->geometry().height() * 2);
+
+    if (hitboxOne.contains(pos)) {
         currentLabel = ui->but_1;
         isDragging = true;
-    } else if (ui->but_2->geometry().contains(pos)) {
+    } else if (hitboxTwo.contains(pos)) {
         currentLabel = ui->but_2;
         isDragging = true;
     }
@@ -132,14 +136,15 @@ void LookingForAGoodTime::mouseReleaseEvent(QMouseEvent* event)
 
 void LookingForAGoodTime::onMouseEvent(const QString &eventName, const QPoint &pos)
 {
-    QPoint posCurrent = QPoint(pos.x(), pos.y() - currentLabel->geometry().height());
-
     for (int i = 0; i < 12; i++) {
-        if (labels[i]->geometry().contains(posCurrent)) {
-            currentLabel->setGeometry(labels[i]->geometry().x() + currentLabel->geometry().width() / 2, labels[i]->geometry().y() + currentLabel->geometry().height() / 2, currentLabel->geometry().width(), currentLabel->geometry().height());
-            update();
+        QRect hitbox = QRect(labels[i]->geometry().x() + labels[i]->geometry().width() / 2, labels[i]->geometry().y() + labels[i]->geometry().height() / 1.5, labels[i]->geometry().width(), labels[i]->geometry().height());
+
+        if (hitbox.contains(pos)) {
+            currentLabel->setGeometry(labels[i]->geometry().center().x() - currentLabel->geometry().width() / 2, labels[i]->geometry().center().y() - currentLabel->geometry().height() / 2, currentLabel->geometry().width(), currentLabel->geometry().height());
         }
     }
+//    currentLabel->setGeometry(pos.x() - currentLabel->geometry().width(), pos.y() - currentLabel->geometry().height() * 1.5, currentLabel->geometry().width(), currentLabel->geometry().height());
+    update();
 }
 
 void LookingForAGoodTime::on_pushButton_clicked()
