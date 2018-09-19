@@ -24,6 +24,10 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_challengeButton_clicked();
+
+    void on_timeEdit_timeChanged(const QTime &time);
+
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;

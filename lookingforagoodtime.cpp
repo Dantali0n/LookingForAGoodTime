@@ -14,6 +14,8 @@ QLabel* currentClockArm;
 const double CONST_PI = 3.1415926535;
 const int CONST_RADIUS = 100;
 const int CONST_SIZE = 30;
+int hours = 0;
+int minutes = 0;
 
 // Holds the Labels with the numbers of the clock from 1 to 12
 QLabel* clockNumberLabels[12];
@@ -111,6 +113,8 @@ void LookingForAGoodTime::paintEvent(QPaintEvent *event)
         // Draw small clock hand
         painter.setPen(QPen(Qt::blue, 10));
         painter.drawLine(x, y, (clockHandSmallRectPoint.x() + x) / 2, (clockHandSmallRectPoint.y() + y) / 2);
+        //ui->timeEdit->setTime(QTime::currentTime());
+        //QTime digitalTime = ui->timeEdit->time();
     }
 }
 
@@ -153,11 +157,19 @@ void LookingForAGoodTime::mouseMoveEvent(QMouseEvent* event)
         QPoint finalPoint = QPoint(x + r * sin(quot * 2 * PI / sec), y - r * cos(quot * 2 * PI / sec));
         if (currentClockArm == ui->clockHandBig) {
             clockHandBigRectPoint = finalPoint;
+            ui->timeEdit->setTime(QTime(quot, 0, 0,0));
         } else {
             clockHandSmallRectPoint = finalPoint;
+            hours = quot/300;
+            if(hours > 0){
+                quot -= 300 * hours;
+            }
+            ui->timeEdit->setTime(QTime(hours, quot/5, 0,0));
         }
 
+
         update();
+
     }
 
     QMainWindow::mouseMoveEvent(event);
@@ -192,4 +204,14 @@ void LookingForAGoodTime::mouseReleaseEvent(QMouseEvent* event)
 void LookingForAGoodTime::on_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(--pageIndex);
+}
+
+void LookingForAGoodTime::on_challengeButton_clicked()
+{
+
+}
+
+void LookingForAGoodTime::on_timeEdit_timeChanged(const QTime &time)
+{
+
 }
