@@ -192,8 +192,9 @@ QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angl
         double minutesDouble = minutes;
         angle = minutesDouble / 9,64630225;
 
-    }else{
-
+    }else if(currentClockArm == ui->clockHandBig && arm == ui->clockHandSmall){
+        double hoursDouble = hours;
+        angle = hoursDouble / 1,92926045016;
     }
 
     // For extra reference:
@@ -231,8 +232,10 @@ QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angl
     int y1Arm = y1 - CONST_SIZE * 1.25;
     arm->setGeometry(x1Arm, y1Arm, arm->geometry().width(), arm->geometry().height());
 
-    if (currentClockArm == ui->clockHandBig) {
+    if (arm == ui->clockHandBig) {
         minutes = quot;
+
+        //behaviour of minute wijzer, if it crosses the 0 mark from left to right or vica versa
         if(previousBramsMinute == 0 && quot == 59){
             hours--;
         }
@@ -241,7 +244,7 @@ QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angl
         }
         ui->timeEdit->setTime(QTime(hours, minutes, 0,0));
         previousBramsMinute = minutes;
-    } else {
+    } else if(currentClockArm == ui->clockHandSmall && arm == ui->clockHandSmall){
         hours = quot/300;
         if(hours > 0){
             quot -= 300 * hours;
