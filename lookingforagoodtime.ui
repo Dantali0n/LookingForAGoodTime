@@ -193,6 +193,19 @@
          </rect>
         </property>
        </widget>
+       <widget class="QLabel" name="clockNameLabel">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>10</y>
+          <width>291</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>clockNameLabel</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="highscoreMenu"/>
       <widget class="QWidget" name="modeMenu"/>
@@ -206,7 +219,7 @@
      <x>0</x>
      <y>0</y>
      <width>480</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <math.h>
 
+
 // The current page
 int pageIndex = 0;
 
@@ -55,19 +56,6 @@ LookingForAGoodTime::~LookingForAGoodTime()
     delete ui;
 }
 
-void LookingForAGoodTime::keyPressEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_A)
-    {
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex()-1);
-    }
-
-    if (event->key() == Qt::Key_D)
-    {
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex()+1);
-    }
-}
-
 /**
  * @brief closes the application when the exit button is pressed.
  */
@@ -81,7 +69,7 @@ void LookingForAGoodTime::on_freePlayButton_clicked()
     ui->stackedWidget->setCurrentIndex(++pageIndex);
 }
 
-// Draw
+// Draw ui
 void LookingForAGoodTime::paintEvent(QPaintEvent *event)
 {
     // Update Free Play ui
@@ -106,10 +94,14 @@ void LookingForAGoodTime::paintEvent(QPaintEvent *event)
         painter.setPen(QPen(Qt::blue, 10));
         finalPoint = setFinalPoint(ui->clockHandSmall, 60 * 60, clockHandSmallRectAngle);
         painter.drawLine(center.x(), center.y(), (finalPoint.x() + center.x()) / 2, (finalPoint.y() + center.y()) / 2);
-    
+
+        // Update the label with the correct pronunciation of the time
+        setTimeLabel();
+
+
         //ui->timeEdit->setTime(QTime::currentTime());
         //QTime digitalTime = ui->timeEdit->time();
-        }
+    }
 }
 
 // Mouse Moving
@@ -183,6 +175,8 @@ void LookingForAGoodTime::on_timeEdit_timeChanged(const QTime &time)
 {
 
 }
+
+// Update the arm endpoint position. Also restuns the point with the coordinates.
 QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angle)
 {
     QPoint center = getCentralWidgetFrameCenterPoint();
@@ -229,13 +223,15 @@ QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angl
         if(hours > 0){
             quot -= 300 * hours;
         }
-        ui->timeEdit->setTime(QTime(hours, quot/5, 0,0));
+        minutes = quot/5;
+        ui->timeEdit->setTime(QTime(hours, minutes, 0,0));
     }
 
     // Also return the actual point.
     return QPoint(x1, y1);
 }
 
+// Returns the center of the central widget.
 QPoint LookingForAGoodTime::getCentralWidgetFrameCenterPoint()
 {
     QRect centralWidgetRect = ui->centralWidget->geometry();
@@ -244,6 +240,7 @@ QPoint LookingForAGoodTime::getCentralWidgetFrameCenterPoint()
     return QPoint(x, y);
 }
 
+// Returns the mouse press area of the arm endpoint.
 QRect LookingForAGoodTime::getHitbox(QLabel *arm)
 {
     QRect rect = arm->geometry();
@@ -257,6 +254,7 @@ QRect LookingForAGoodTime::getHitbox(QLabel *arm)
     return QRect(x, y, width, height);
 }
 
+// Updates the location of the clock numbers.
 void LookingForAGoodTime::setClockNumbersGeometry(QPoint center)
 {
     // Circle has 360°. A clock has 12 hours. So each section is 30°.
@@ -289,4 +287,100 @@ void LookingForAGoodTime::setClockNumbersGeometry(QPoint center)
 
         clockNumberLabels[i]->setGeometry(x, y, CONST_SIZE, CONST_SIZE);
     }
+}
+
+// Returns the sting equivalent of the time.
+// Can be used for both hours and minutes.
+// NOTE: When the time is 15 or 30, retuns 'kwart' and 'half'.
+QString LookingForAGoodTime::getTimeString(int time)
+{
+    switch (time) {
+        case 29:
+        case 1: return "een";
+
+        case 28:
+        case 2: return "twee";
+
+        case 27:
+        case 3: return "drie";
+
+        case 26:
+        case 4: return "vier";
+
+        case 25:
+        case 5: return "vijf";
+
+        case 24:
+        case 6: return "zes";
+
+        case 23:
+        case 7: return "zeven";
+
+        case 22:
+        case 8: return "acht";
+
+        case 21:
+        case 9: return "negen";
+
+        case 20:
+        case 10: return "tien";
+
+        case 19:
+        case 11: return "elf";
+
+        case 18:
+        case 12: return "twaalf";
+
+        case 17:
+        case 13: return "dertien";
+
+        case 16:
+        case 14: return "viertien";
+
+        case 15: return "kwart";
+
+        default: return "half";
+    }
+}
+
+// Updates the time label with the new time.
+void LookingForAGoodTime::setTimeLabel()
+{
+    int h = hours;
+    int m = minutes;
+
+    // Change the hour to the next hour when the minutes passed 15 min.
+    if (m > 15) {
+        h++;
+    }
+
+    // Converts the ints to a readable string
+    QString hoursString = getTimeString(h);
+    QString minutesString = getTimeString(m % 30);
+
+
+    // Exact [h] uur
+    if (m == 0) {
+        ui->clockNameLabel->setText(hoursString + " uur");
+        return;
+    }
+
+    // Exact half [h]
+    if (m == 30) {
+        ui->clockNameLabel->setText(minutesString + " " + hoursString);
+        return;
+    }
+
+    QString indicatie = "";
+    if (m < 16) {
+        indicatie = "over";
+    } else if (m < 30) {
+        indicatie = "voor half";
+    } else if (m < 45) {
+        indicatie = "over half";
+    } else if (m < 60) {
+        indicatie = "voor";
+    }
+
+    ui->clockNameLabel->setText(minutesString + " " + indicatie + " " + hoursString);
 }

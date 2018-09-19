@@ -15,23 +15,14 @@ class LookingForAGoodTime : public QMainWindow
 
 public:
     explicit LookingForAGoodTime(QWidget* parent = nullptr);
-    ~LookingForAGoodTime();
-protected:
-    void keyPressEvent(QKeyEvent *);
+    ~LookingForAGoodTime() override;
+
 private slots:
     void on_exitButton_clicked();
-
     void on_freePlayButton_clicked();
-
     void on_pushButton_clicked();
-
     void on_challengeButton_clicked();
-
     void on_timeEdit_timeChanged(const QTime &time);
-    QPoint setFinalPoint(QLabel* arm, int sections, double angle);
-    QPoint getCentralWidgetFrameCenterPoint();
-    QRect getHitbox(QLabel* arm);
-    void setClockNumbersGeometry(QPoint center);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
@@ -40,10 +31,14 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
-    void onMouseEvent(const QString &eventName, const QPoint &pos);
-
-private:
     Ui::LookingForAGoodTime *ui;
+
+    QPoint setFinalPoint(QLabel* arm, int sections, double angle);
+    QPoint getCentralWidgetFrameCenterPoint();
+    QRect getHitbox(QLabel* arm);
+    void setClockNumbersGeometry(QPoint center);
+    QString getTimeString(int time);
+    void setTimeLabel();
 };
 
 #endif // LOOKINGFORAGOODTIME_H
