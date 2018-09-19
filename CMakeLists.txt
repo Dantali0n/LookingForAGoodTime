@@ -13,7 +13,12 @@ use_cxx11()
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Find qt widgets
-find_package(Qt5Widgets CONFIG REQUIRED)
+if (APPLE)
+	find_package(Qt5Widgets CONFIG REQUIRED PATHS /usr/local/Cellar/qt/5.11.1)
+else()
+	find_package(Qt5Widgets CONFIG REQUIRED)
+endif()
+
 find_package(sqlite3 REQUIRED)
 
 set(LFGT_SOURCE
