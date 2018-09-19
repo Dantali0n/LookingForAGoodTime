@@ -10,9 +10,9 @@
 class HighscoreModel
 {
 public:
-    uint64_t id;
-    QDateTime datetime;
+    int id;
     QString name;
+    QDateTime datetime;
     uint64_t score;
 };
 

@@ -12,12 +12,20 @@
 class HighscoreDTO
 {
 public:
+    HighscoreDTO();
     HighscoreDTO(HighscoreModel hs);
-protected:          // AFFINITY     -   DATA TYPE
-    uint64_t id;    // INTEGER      -   UNSIGNED BIG INT
-    char* name[64]; // TEXT         -   VARCHAR(64)
-    int datetime;   // NUMERIC      -   DATETIME
-    uint64_t score; // INTEGER      -   UNSIGNED BIG INT
+    HighscoreDTO(int id, char* name[], int datetime, uint64_t score);
+
+    HighscoreModel* get();
+
+                                // AFFINITY     -   DATA TYPE
+    int id;                     // INTEGER      -   UNSIGNED BIG INT
+    char name[64];              // TEXT         -   VARCHAR(64)
+    char datetime[19];          // NUMERIC      -   DATETIME
+    uint64_t score;             // INTEGER      -   UNSIGNED BIG INT
+
+protected:
+    const static char* DATE_FORMAT;
 };
 
 #endif // HIGHSCOREDTO_H

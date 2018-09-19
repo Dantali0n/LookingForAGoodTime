@@ -22,6 +22,13 @@ LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
 
     HighscoreService hs = HighscoreService();
     HighscoreService hs2 = HighscoreService();
+    std::vector<HighscoreModel*> data = hs.get();
+
+    for (std::vector<HighscoreModel*>::iterator it = data.begin() ; it != data.end(); ++it)
+    {
+        fprintf(stderr, "%s\n", (*it)->name.toStdString().c_str());
+        delete (*it);
+    }
 
     // Create Analog Clock
     QRect mainRect = ui->stackedWidget->geometry();

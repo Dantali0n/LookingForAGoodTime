@@ -9,6 +9,9 @@ include(macros)
 # Enable c++11 even when cmake < 3.1
 use_cxx11()
 
+# Enable pedantic errors and warnings for c++
+use_cxx_warning_pedantic()
+
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -17,6 +20,7 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(sqlite3 REQUIRED)
 
 set(LFGT_SOURCE
+	highscoredto.cpp
 	highscoreservice.cpp
 	lookingforagoodtime.cpp
 	main.cpp

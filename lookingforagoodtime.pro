@@ -25,7 +25,8 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         lookingforagoodtime.cpp \
-        highscoreservice.cpp
+        highscoreservice.cpp \
+    highscoredto.cpp
 
 HEADERS += \
         lookingforagoodtime.h \
