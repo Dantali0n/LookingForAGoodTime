@@ -21,6 +21,7 @@ const int CONST_RADIUS = 100;
 const int CONST_SIZE = 30;
 int hours = 0;
 int minutes = 0;
+int previousBramsMinute = 0;
 
 // Holds the Labels with the numbers of the clock from 1 to 12
 QLabel* clockNumberLabels[12];
@@ -181,6 +182,15 @@ QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angl
 {
     QPoint center = getCentralWidgetFrameCenterPoint();
 
+    if (currentClockArm == ui->clockHandSmall && arm == ui->clockHandBig) {
+        double minutesDouble = minutes;
+        angle = minutesDouble / 9,64630225;
+
+    }else if(currentClockArm == ui->clockHandBig && arm == ui->clockHandSmall){
+        double hoursDouble = hours;
+        angle = hoursDouble / 1,92926045016;
+    }
+
     // For extra reference:
     // http://www.cplusplus.com/reference/cstdlib/div/
 
@@ -216,9 +226,19 @@ QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angl
     int y1Arm = y1 - CONST_SIZE * 1.25;
     arm->setGeometry(x1Arm, y1Arm, arm->geometry().width(), arm->geometry().height());
 
-    if (currentClockArm == ui->clockHandBig) {
-        ui->timeEdit->setTime(QTime(quot, 0, 0,0));
-    } else {
+    if (arm == ui->clockHandBig) {
+        minutes = quot;
+
+        //behaviour of minute wijzer, if it crosses the 0 mark from left to right or vica versa
+        if(previousBramsMinute == 0 && quot == 59){
+            hours--;
+        }
+        else if(previousBramsMinute == 59 && quot == 0){
+            hours++;
+        }
+        ui->timeEdit->setTime(QTime(hours, minutes, 0,0));
+        previousBramsMinute = minutes;
+    } else if(currentClockArm == ui->clockHandSmall && arm == ui->clockHandSmall){
         hours = quot/300;
         if(hours > 0){
             quot -= 300 * hours;
