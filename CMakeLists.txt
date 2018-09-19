@@ -15,11 +15,22 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Find qt widgets
 if (APPLE)
 	find_package(Qt5Widgets CONFIG REQUIRED PATHS /usr/local/Cellar/qt/5.11.1)
+elseif(WIN32)
+	set(QT5Widgets_DIR "C:/Qt/5.11.1/msvc2017_64/lib/cmake/Qt5Widgets")
+	find_package(QT5Widgets CONFIG REQUIRED)
 else()
 	find_package(Qt5Widgets CONFIG REQUIRED)
 endif()
 
-find_package(sqlite3 REQUIRED)
+# Add sqlite3 library
+if(WIN32)
+	#PLS NO GLOBERINO
+	set(CMAKE_WIN32_EXECUTABLE ON)
+	add_library(SQLITE3_LIBRARY STATIC lib/win64)
+	include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/win64")
+else()
+	add_library(sqlite3 REQUIRED)
+endif()
 
 set(LFGT_SOURCE
 	lookingforagoodtime.cpp
@@ -51,4 +62,8 @@ add_executable(lookingForAGoodTime ${LFGT_SOURCE} ${UI_HEADERS} ${MOC_SOURCE})
 
 qt5_use_modules(lookingForAGoodTime Widgets)
 
-target_link_libraries(lookingForAGoodTime Qt5::Widgets ${SQLITE3_LIBRARY})
+if(WIN32)
+	target_link_libraries(lookingForAGoodTime Qt5::Widgets SQLITE3_LIBRARY)
+else()
+	target_link_libraries(lookingForAGoodTime Qt5::Widgets ${SQLITE3_LIBRARY})
+endif()

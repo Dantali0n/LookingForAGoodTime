@@ -1,0 +1,69 @@
+incident response
+
+Incident types:
+When concerning ourselves with cyber incidents, we consider the following types of incidents
+- Advanced targeted attacks
+- Malicious code
+- Unauthorized access
+- Improper usage
+- Loss of theft
+
+the incident lifecycle:	APMARR
+assess -> prepare -> monitor -> alert -> respond -> recover
+	1. Asses and prepare: Understanding the current threats and capabilities-> implement adequate security measures based on assessment
+	2. Monitor and alert: Monitor abnormal behaviour/communication and anomalies within the company: provide timely alerts and notify proper chain of command
+	3. Resond and recover: Respond adequately to incidents: Mitigate damage and recover system operations to resume business as usual
+
+Severity of incidents:
+	Threat management -> Security monitoring
+	Incident management -> CSIRT (computer security incident response team)
+	Cyber crisis management -> MET (major event team)
+
+Threat actors:
+	Organized crime
+	State actors & terrorists
+	Script kiddies
+	Hacktivists
+	Insiders
+Tools & technologies:
+	Spam/Phishing/Pharming
+	Compromised Website
+	Network attack/Exploit vulnerabilities
+
+Our definition of a crisis:
+	A catastrophic, unforeseen incident that jeopardizes the critical assets, reputation, and/or financial standings of an organization or community
+	Credibility is also at stake when managing a crisis. How you handle a situation can seriously impact how the world views you as company
+A few examples of a crisis:
+	ING bankgin DDOS
+	Schiphol Power outage
+	Ashley madison 33 milion accounts leaked
+	WanaCry Ransomware - 200.000 victims and counting
+	NoPetya ransomware - Maersk loses 378 milion in dollars
+
+PREPARE
+	Structure: Operational -> Tactical -> Strategic
+	Governance: Clear mandate, tasks, responsibilites
+	Process: Notification and escalation process
+	Plan: Official and activated plans, including all crisis
+OODA: Obtain situational understanding and regain the initiative
+	Observe
+	Orient
+	Decide
+	Act
+PEAR:
+	People
+	Environment
+	Assets
+	Reputation
+
+After looking at some old virus examples, we talked about hacking phases, namely:
+	1. Reconnaissance
+	2. Scanning
+	3. Gaining access
+	4. Maintaining access
+	5. Clearing your tracks
+
+Types of hackers:
+	White hats:	Have permission, don't mean harm
+	Grey hats:	Don't have permission, but also don't mean harm
+	Black hats:	Don't have permission and very much mean harm

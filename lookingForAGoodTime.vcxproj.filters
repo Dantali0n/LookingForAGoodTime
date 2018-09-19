@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\lookingforagoodtime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\moc_lookingforagoodtime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\moc_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\ui_lookingforagoodtime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\lookingforagoodtime.ui" />
+    <CustomBuild Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\CMakeFiles\f58c927ace4751108f5403fb6a927552\moc_lookingforagoodtime.cpp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\CMakeFiles\f58c927ace4751108f5403fb6a927552\moc_main.cpp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{385635E5-4A68-3398-8F61-3FC599D63EC6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{AA9DDBE5-E3DA-38CD-9034-1B580B2A9C7B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{191BD406-1535-3804-925A-E16C2BB22A29}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

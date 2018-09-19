@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\ext\windows\sqlite3\sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\ext\windows\sqlite3\sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\ext\windows\sqlite3\sqlite3ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{AA9DDBE5-E3DA-38CD-9034-1B580B2A9C7B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{191BD406-1535-3804-925A-E16C2BB22A29}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

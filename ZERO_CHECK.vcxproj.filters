@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\eloy\Documents\Projects\LookingForAGoodTime\CMakeFiles\45b775d11c6784e36d23f75afe30d528\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{385635E5-4A68-3398-8F61-3FC599D63EC6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
