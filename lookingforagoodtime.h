@@ -1,6 +1,7 @@
 #ifndef LOOKINGFORAGOODTIME_H
 #define LOOKINGFORAGOODTIME_H
 
+#include "ui_lookingforagoodtime.h"
 #include <QMainWindow>
 #include <QKeyEvent>
 
@@ -23,6 +24,11 @@ private slots:
     void on_freePlayButton_clicked();
 
     void on_pushButton_clicked();
+
+    QPoint setFinalPoint(QLabel* arm, int sections, double angle);
+    QPoint getCentralWidgetFrameCenterPoint();
+    QRect getHitbox(QLabel* arm);
+    void setClockNumbersGeometry(QPoint center);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
