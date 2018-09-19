@@ -315,51 +315,22 @@ void LookingForAGoodTime::setClockNumbersGeometry(QPoint center)
 QString LookingForAGoodTime::getTimeString(int time)
 {
     switch (time) {
-        case 29:
-        case 1: return "een";
-
-        case 28:
-        case 2: return "twee";
-
-        case 27:
-        case 3: return "drie";
-
-        case 26:
-        case 4: return "vier";
-
-        case 25:
-        case 5: return "vijf";
-
-        case 24:
-        case 6: return "zes";
-
-        case 23:
-        case 7: return "zeven";
-
-        case 22:
-        case 8: return "acht";
-
-        case 21:
-        case 9: return "negen";
-
-        case 20:
-        case 10: return "tien";
-
-        case 19:
-        case 11: return "elf";
-
-        case 18:
-        case 12: return "twaalf";
-
-        case 17:
-        case 13: return "dertien";
-
-        case 16:
-        case 14: return "viertien";
-
-        case 15: return "kwart";
-
-        default: return "half";
+        case 1:     case 29:            return "een";
+        case 2:     case 28:            return "twee";
+        case 3:     case 27:            return "drie";
+        case 4:     case 26:            return "vier";
+        case 5:     case 25:            return "vijf";
+        case 6:     case 24:            return "zes";
+        case 7:     case 23:            return "zeven";
+        case 8:     case 22:            return "acht";
+        case 9:     case 21:            return "negen";
+        case 10:    case 20:            return "tien";
+        case 11:    case 19:            return "elf";
+        case 12:    case 18: case 0:    return "twaalf";
+        case 13:    case 17:            return "dertien";
+        case 14:    case 16:            return "viertien";
+        case 15:                        return "kwart";
+        default:                        return "half";
     }
 }
 
@@ -379,13 +350,13 @@ void LookingForAGoodTime::setTimeLabel()
     QString minutesString = getTimeString(m % 30);
 
 
-    // Exact [h] uur
+    // Exact '[h] uur'
     if (m == 0) {
         ui->clockNameLabel->setText(hoursString + " uur");
         return;
     }
 
-    // Exact half [h]
+    // Exact 'half [h]'
     if (m == 30) {
         ui->clockNameLabel->setText(minutesString + " " + hoursString);
         return;
