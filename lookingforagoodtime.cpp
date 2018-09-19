@@ -21,6 +21,7 @@ LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
     ui->setupUi(this);    
 
     HighscoreService hs = HighscoreService();
+    HighscoreService hs2 = HighscoreService();
 
     // Create Analog Clock
     QRect mainRect = ui->stackedWidget->geometry();

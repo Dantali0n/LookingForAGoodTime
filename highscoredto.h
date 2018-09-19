@@ -15,8 +15,8 @@ public:
     HighscoreDTO(HighscoreModel hs);
 protected:          // AFFINITY     -   DATA TYPE
     uint64_t id;    // INTEGER      -   UNSIGNED BIG INT
-    int datetime;   // NUMERIC      -   DATETIME
     char* name[64]; // TEXT         -   VARCHAR(64)
+    int datetime;   // NUMERIC      -   DATETIME
     uint64_t score; // INTEGER      -   UNSIGNED BIG INT
 };
 
