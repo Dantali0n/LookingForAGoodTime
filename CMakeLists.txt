@@ -29,7 +29,7 @@ if(WIN32)
 	add_library(SQLITE3_LIBRARY STATIC lib/win64)
 	include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/win64")
 else()
-	add_library(sqlite3 REQUIRED)
+	find_library(sqlite3 REQUIRED)
 endif()
 
 set(LFGT_SOURCE
