@@ -1,9 +1,10 @@
 #ifndef LOOKINGFORAGOODTIME_H
 #define LOOKINGFORAGOODTIME_H
 
-#include "ui_lookingforagoodtime.h"
-#include <QMainWindow>
 #include <QKeyEvent>
+#include <QMainWindow>
+
+#include "ui_lookingforagoodtime.h"
 
 namespace Ui {
 class LookingForAGoodTime;
@@ -22,7 +23,9 @@ private slots:
     void on_freePlayButton_clicked();
     void on_pushButton_clicked();
     void on_challengeButton_clicked();
-    void on_timeEdit_timeChanged(const QTime &time);
+
+    void on_highscoresButton_clicked();
+    void on_backButton_clicked();
 
 protected:
     void paintEvent(QPaintEvent* event) override;
@@ -44,3 +47,4 @@ private:
 };
 
 #endif // LOOKINGFORAGOODTIME_H
+

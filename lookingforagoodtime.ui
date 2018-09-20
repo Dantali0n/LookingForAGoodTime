@@ -207,7 +207,45 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="highscoreMenu"/>
+      <widget class="QWidget" name="highscoreMenu">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <item row="1" column="0">
+         <widget class="QListView" name="highscoreList"/>
+        </item>
+        <item row="3" column="0">
+         <layout class="QGridLayout" name="buttonMargin">
+          <property name="leftMargin">
+           <number>50</number>
+          </property>
+          <property name="rightMargin">
+           <number>50</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="backButton">
+            <property name="text">
+             <string>back</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
+         <widget class="QLabel" name="highscoreLabel">
+          <property name="font">
+           <font>
+            <pointsize>32</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Highscore</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="modeMenu"/>
      </widget>
     </item>

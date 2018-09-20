@@ -1,10 +1,14 @@
-#include "lookingforagoodtime.h"
-#include "ui_lookingforagoodtime.h"
 #include <QMouseEvent>
 #include <QPainter>
-#include <math.h>
-#include <QTextStream>
+#include <QStringList>
+#include <QStringListModel>
 
+#include <sstream>
+#include <math.h>
+
+#include "highscoreservice.h"
+#include "lookingforagoodtime.h"
+#include "ui_lookingforagoodtime.h"
 
 // The current page
 int pageIndex = 0;
@@ -40,7 +44,9 @@ LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LookingForAGoodTime)
 {
-    ui->setupUi(this);    
+    ui->setupUi(this);
+
+    HighscoreService hs = HighscoreService();
 
     // Creates the analog clock numbers
     for (int i = 0; i < 12; i++) {
@@ -59,6 +65,8 @@ LookingForAGoodTime::~LookingForAGoodTime()
     delete ui;
 }
 
+
+
 /**
  * @brief closes the application when the exit button is pressed.
  */
@@ -71,6 +79,45 @@ void LookingForAGoodTime::on_freePlayButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(++pageIndex);
 }
+
+void LookingForAGoodTime::on_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(--pageIndex);
+}
+
+void LookingForAGoodTime::on_challengeButton_clicked()
+{
+
+}
+void LookingForAGoodTime::on_highscoresButton_clicked()
+{
+    HighscoreService hs = HighscoreService();
+    std::vector<HighscoreModel*> top10 = hs.getTop10();
+    QStringListModel* model = new QStringListModel(this);
+    QStringList list;
+
+    uint64_t rank = 1;
+    for (std::vector<HighscoreModel*>::iterator it = top10.begin() ; it != top10.end(); ++it)
+    {
+        std::ostringstream convert;
+        convert << rank << " - ";
+        convert << (*it)->name.toStdString() << " - ";
+        convert << (*it)->score;
+        list << QString::fromStdString(convert.str());
+        delete (*it);
+        rank++;
+    }
+    model->setStringList(list);
+    ui->highscoreList->setModel(model);
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void LookingForAGoodTime::on_backButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
 
 // Draw ui
 void LookingForAGoodTime::paintEvent(QPaintEvent *event)
@@ -259,6 +306,7 @@ void LookingForAGoodTime::mouseReleaseEvent(QMouseEvent* event)
     isDragging = false;
 }
 
+// Key Press
 void LookingForAGoodTime::keyPressEvent(QKeyEvent *event)
 {
     if (pageIndex == 1) {
@@ -272,20 +320,6 @@ void LookingForAGoodTime::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void LookingForAGoodTime::on_pushButton_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(--pageIndex);
-}
-
-void LookingForAGoodTime::on_challengeButton_clicked()
-{
-
-}
-
-void LookingForAGoodTime::on_timeEdit_timeChanged(const QTime &time)
-{
-
-}
 
 // Returns the center of the central widget.
 QPoint LookingForAGoodTime::getCentralWidgetFrameCenterPoint()
@@ -313,7 +347,7 @@ QRect LookingForAGoodTime::getHitbox(QLabel *arm)
 // Updates the location of the clock numbers.
 void LookingForAGoodTime::setClockNumbersGeometry(QPoint center)
 {
-    // Circle has 360°. A clock has 12 hours. So each section is 30°.
+    // Circle has 360Â°. A clock has 12 hours. So each section is 30Â°.
     int secDegrees = 360 / 12;
 
     // length from the center + half size of the arm endpoint
@@ -330,7 +364,7 @@ void LookingForAGoodTime::setClockNumbersGeometry(QPoint center)
     // Calculates the positions of the labels
     for (int i = 0; i < 12; i++) {
 
-        // Angle 0° starts at 3 hour. So add 9 to make it start at 12 hour. However, The first labels is 1 hour, so we need to add 1.
+        // Angle 0Â° starts at 3 hour. So add 9 to make it start at 12 hour. However, The first labels is 1 hour, so we need to add 1.
         int section = i + 9 + 1;
 
         angle = section * secDegrees;

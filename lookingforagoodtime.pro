@@ -24,10 +24,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        lookingforagoodtime.cpp
+        lookingforagoodtime.cpp \
+        highscoreservice.cpp \
+    highscoredto.cpp \
+    highscoremodel.cpp
 
 HEADERS += \
-        lookingforagoodtime.h
+        lookingforagoodtime.h \
+    highscoredto.h \
+    highscoreservice.h \
+    highscoremodel.h
 
 FORMS += \
         lookingforagoodtime.ui
@@ -36,3 +42,8 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+macx: LIBS += -L$$PWD/../../../../../usr/local/Cellar/sqlite/3.25.1/lib/ -lsqlite3.0
+
+INCLUDEPATH += $$PWD/../../../../../usr/local/Cellar/sqlite/3.25.1/include
+DEPENDPATH += $$PWD/../../../../../usr/local/Cellar/sqlite/3.25.1/include
