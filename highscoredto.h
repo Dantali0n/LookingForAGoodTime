@@ -23,9 +23,6 @@ public:
     char name[64];              // TEXT         -   VARCHAR(64)
     char datetime[19];          // NUMERIC      -   DATETIME
     uint64_t score;             // INTEGER      -   UNSIGNED BIG INT
-
-protected:
-    const static char* DATE_FORMAT;
 };
 
 #endif // HIGHSCOREDTO_H

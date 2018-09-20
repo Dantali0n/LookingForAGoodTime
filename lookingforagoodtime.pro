@@ -26,7 +26,8 @@ SOURCES += \
         main.cpp \
         lookingforagoodtime.cpp \
         highscoreservice.cpp \
-    highscoredto.cpp
+    highscoredto.cpp \
+    highscoremodel.cpp
 
 HEADERS += \
         lookingforagoodtime.h \

@@ -21,6 +21,7 @@ find_package(sqlite3 REQUIRED)
 
 set(LFGT_SOURCE
 	highscoredto.cpp
+	highscoremodel.cpp
 	highscoreservice.cpp
 	lookingforagoodtime.cpp
 	main.cpp
