@@ -2,7 +2,6 @@
 #define HIGHSCORESERVICE_H
 
 #include <sqlite3.h>
-#include <bsd/string.h>
 #include <vector>
 
 #include "highscoredto.h"

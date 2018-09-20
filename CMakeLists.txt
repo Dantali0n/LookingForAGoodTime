@@ -32,7 +32,7 @@ if(WIN32)
 	add_library(SQLITE3_LIBRARY STATIC lib/win64)
 	include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/win64")
 else()
-	find_library(sqlite3 REQUIRED)
+	find_package(sqlite3 REQUIRED)
 endif()
 
 set(LFGT_SOURCE
@@ -71,7 +71,7 @@ add_executable(lookingforagoodtime ${LFGT_SOURCE} ${UI_HEADERS} ${MOC_SOURCE})
 qt5_use_modules(lookingforagoodtime Widgets)
 
 if(WIN32)
-	target_link_libraries(lookingForAGoodTime Qt5::Widgets SQLITE3_LIBRARY)
+	target_link_libraries(lookingforagoodtime Qt5::Widgets SQLITE3_LIBRARY)
 else()
-	target_link_libraries(lookingForAGoodTime Qt5::Widgets ${SQLITE3_LIBRARY})
+	target_link_libraries(lookingforagoodtime Qt5::Widgets ${SQLITE3_LIBRARY})
 endif()
