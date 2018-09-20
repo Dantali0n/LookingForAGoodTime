@@ -92,7 +92,7 @@ void LookingForAGoodTime::on_exitButton_clicked()
 
 void LookingForAGoodTime::on_freePlayButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(++pageIndex);
+    ui->stackedWidget->setCurrentIndex(pageIndex = 1);
 }
 
 void LookingForAGoodTime::paintEvent(QPaintEvent *event)
@@ -157,4 +157,54 @@ void LookingForAGoodTime::onMouseEvent(const QString &eventName, const QPoint &p
 void LookingForAGoodTime::on_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(--pageIndex);
+}
+
+void LookingForAGoodTime::on_challengesBackbutton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 0);
+}
+
+void LookingForAGoodTime::on_challengesRandomButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 4);
+}
+
+void LookingForAGoodTime::on_challengesAnalogButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 5);
+}
+
+void LookingForAGoodTime::on_challengesDigitalButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 6);
+}
+
+void LookingForAGoodTime::on_challengesSpeakButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 7);
+}
+
+void LookingForAGoodTime::on_challengeButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 3);
+}
+
+void LookingForAGoodTime::on_randomBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 3);
+}
+
+void LookingForAGoodTime::on_analogBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 3);
+}
+
+void LookingForAGoodTime::on_digitalBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 3);
+}
+
+void LookingForAGoodTime::on_speachBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 3);
 }

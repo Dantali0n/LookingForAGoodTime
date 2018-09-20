@@ -24,6 +24,26 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_challengesBackbutton_clicked();
+
+    void on_challengesRandomButton_clicked();
+
+    void on_challengesAnalogButton_clicked();
+
+    void on_challengesDigitalButton_clicked();
+
+    void on_challengesSpeakButton_clicked();
+
+    void on_challengeButton_clicked();
+
+    void on_randomBackButton_clicked();
+
+    void on_analogBackButton_clicked();
+
+    void on_digitalBackButton_clicked();
+
+    void on_speachBackButton_clicked();
+
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
