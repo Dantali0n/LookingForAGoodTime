@@ -184,11 +184,15 @@ QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angl
 
     if (currentClockArm == ui->clockHandSmall && arm == ui->clockHandBig) {
         double minutesDouble = minutes;
-        angle = minutesDouble / 9,64630225;
+//        angle = minutesDouble / 9,64630225;
+        angle = minutesDouble / (60 / ( 2* CONST_PI));
+
 
     }else if(currentClockArm == ui->clockHandBig && arm == ui->clockHandSmall){
         double hoursDouble = hours;
-        angle = hoursDouble / 1,92926045016;
+        double minutesDouble = minutes;
+        angle = hoursDouble / (12 / (2 * CONST_PI));
+        angle += minutesDouble / 120;
     }
 
     // For extra reference:
@@ -236,7 +240,7 @@ QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angl
         else if(previousBramsMinute == 59 && quot == 0){
             hours++;
         }
-        ui->timeEdit->setTime(QTime(hours, minutes, 0,0));
+        ui->timeEdit->setTime(QTime(hours % 24, minutes, 0,0));
         previousBramsMinute = minutes;
     } else if(currentClockArm == ui->clockHandSmall && arm == ui->clockHandSmall){
         hours = quot/300;
