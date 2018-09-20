@@ -88,68 +88,67 @@ void LookingForAGoodTime::paintEvent(QPaintEvent *event)
         // Draw clock circle
         painter.drawEllipse(QPointF(center.x(), center.y()), 100, 100);
 
-        // Draw big clock hand
-//        painter.setPen(QPen(Qt::red, 5));
-//        QPoint finalPoint = setFinalPoint(ui->clockHandBig, 60, clockHandBigRectAngle);
-//        painter.drawLine(center.x(), center.y(), finalPoint.x(), finalPoint.y());
+        // Update time after dragging an arm
+        if (isDragging) {
+            if (currentClockArm == ui->clockHandBig) {
+                int quot = clockHandBigRectAngle / (2 * CONST_PI / 60);
+                int prev = prevQuotHours;
 
-        // Draw small clock hand
-//        painter.setPen(QPen(Qt::blue, 10));
-//        finalPoint = setFinalPoint(ui->clockHandSmall, 60 * 60, clockHandSmallRectAngle);
-//        painter.drawLine(center.x(), center.y(), (finalPoint.x() + center.x()) / 2, (finalPoint.y() + center.y()) / 2);
-
-        // Recalculate other arm while dragging an arm
-        if (currentClockArm == ui->clockHandBig) {
-            int quot = clockHandBigRectAngle / (2 * CONST_PI / 60);
-            int prev = prevQuotHours;
-
-            if (prev <= 60 && quot >= 0 && prev >= 40 && quot <= 20) {
-                if (hours == 23) {
-                    hours = -1;
+                if (prev <= 60 && quot >= 0 && prev >= 40 && quot <= 20) {
+                    if (hours == 23) {
+                        hours = -1;
+                    }
+                    minutes = 0;
+                    hours++;
+                } else if (prev >= 0 && quot <= 60 && prev <= 20 && quot >= 40) {
+                    if (hours == 0) {
+                        hours = 24;
+                    }
+                    minutes = 59;
+                    hours--;
+                } else if (quot > prev) {
+                    minutes = quot;
+                } else if (quot < prev) {
+                    minutes = quot;
                 }
-                minutes = 0;
-                hours++;
-            } else if (prev >= 0 && quot <= 60 && prev <= 20 && quot >= 40) {
-                if (hours == 0) {
-                    hours = 24;
+
+                prevQuotHours = quot;
+
+                // Update digital clock
+                ui->timeEdit->setTime(QTime(hours, minutes, 0,0));
+
+            } else if (currentClockArm == ui->clockHandSmall) {
+                int quot = clockHandSmallRectAngle / (2 * CONST_PI / (60 * 60));
+                int x = (hours + 1) * 300;
+                int mPrev = prevQuotMinutes % x / 5;
+                int min = quot % x / 5;
+                int qwer = mPrev % 60;
+                int asdf = min % 60;
+
+                if (qwer <= 59 && asdf >= 0 && qwer >= 39 && asdf <= 20) {
+                    hours++;
+                    if (hours == 24) {
+                        hours = 0;
+                    }
+                    minutes = 0;
+                } else if (qwer >= 0 && asdf <= 59 && qwer <= 20 && asdf >= 39) {
+                    hours--;
+                    if (hours == -1) {
+                        hours = 23;
+                    }
+                    minutes = 59;
+                } else if (quot != mPrev) {
+                    minutes = min % 60;
                 }
-                minutes = 59;
-                hours--;
-            } else if (quot > prev) {
-                minutes = quot;
-            } else if (quot < prev) {
-                minutes = quot;
+
+                prevQuotMinutes = quot;
+
+                // Update digital clock
+                ui->timeEdit->setTime(QTime(hours, minutes, 0,0));
             }
-
-            prevQuotHours = quot;
-
-        } else if (currentClockArm == ui->clockHandSmall) {
-            int quot = clockHandSmallRectAngle / (2 * CONST_PI / (60 * 60));
-            int x = (hours + 1) * 300;
-            int mPrev = prevQuotMinutes % x / 5;
-            int min = quot % x / 5;
-            int qwer = mPrev % 60;
-            int asdf = min % 60;
-
-            if (qwer <= 59 && asdf >= 0 && qwer >= 39 && asdf <= 20) {
-                hours++;
-                if (hours == 24) {
-                    hours = 0;
-                }
-                minutes = 0;
-            } else if (qwer >= 0 && asdf <= 59 && qwer <= 20 && asdf >= 39) {
-                hours--;
-                if (hours == -1) {
-                    hours = 23;
-                }
-                minutes = 59;
-            } else if (quot != mPrev) {
-                minutes = min % 60;
-            }
-
-            prevQuotMinutes = quot;
         }
 
+        // Draw the big arm
         QLabel* arm = ui->clockHandBig;
         int hh = hours;
         int mm = minutes;
@@ -178,11 +177,11 @@ void LookingForAGoodTime::paintEvent(QPaintEvent *event)
         painter.drawLine(center.x(), center.y(), x1, y1);
 
 
-
+        // Draw the small arm
         arm = ui->clockHandSmall;
         int xxx = hh * 300 + mm * 5;
         sections = 60 * 60;
-//        double rads = 2 * CONST_PI;
+
         bigArmSec = rads / sections;
         bigArmAngle = bigArmSec * xxx;
         quot = bigArmAngle / bigArmSec;
@@ -202,14 +201,8 @@ void LookingForAGoodTime::paintEvent(QPaintEvent *event)
         y1Arm = y1 - CONST_SIZE * 1.25;
         arm->setGeometry(x1Arm, y1Arm, arm->geometry().width(), arm->geometry().height());
 
-
         painter.setPen(QPen(Qt::blue, 10));
         painter.drawLine(center.x(), center.y(), (x1 + center.x()) / 2, (y1 + center.y()) / 2);
-
-
-
-        // Update digital clock
-        ui->timeEdit->setTime(QTime(hours, minutes, 0,0));
 
         // Update the label with the correct pronunciation of the time
         setTimeLabel();
@@ -235,10 +228,7 @@ void LookingForAGoodTime::mouseMoveEvent(QMouseEvent* event)
         }
 
         update();
-
     }
-
-    QMainWindow::mouseMoveEvent(event);
 }
 
 // Mouse Press
@@ -261,16 +251,25 @@ void LookingForAGoodTime::mousePressEvent(QMouseEvent* event)
         currentClockArm = ui->clockHandSmall;
         isDragging = true;
     }
-
-    QMainWindow::mousePressEvent(event);
 }
 
 // Mouse Release
 void LookingForAGoodTime::mouseReleaseEvent(QMouseEvent* event)
 {
     isDragging = false;
+}
 
-    QMainWindow::mouseReleaseEvent(event);
+void LookingForAGoodTime::keyPressEvent(QKeyEvent *event)
+{
+    if (pageIndex == 1) {
+        // Update the time after pressing enter/return in th time box
+        if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
+            isDragging = false;
+            hours = ui->timeEdit->time().hour();
+            minutes = ui->timeEdit->time().minute();
+            update();
+        }
+    }
 }
 
 void LookingForAGoodTime::on_pushButton_clicked()
@@ -286,51 +285,6 @@ void LookingForAGoodTime::on_challengeButton_clicked()
 void LookingForAGoodTime::on_timeEdit_timeChanged(const QTime &time)
 {
 
-}
-
-// Update the arm endpoint position. Also restuns the point with the coordinates.
-QPoint LookingForAGoodTime::setFinalPoint(QLabel *arm, int sections, double angle)
-{
-    QPoint center = getCentralWidgetFrameCenterPoint();
-
-
-    // For extra reference:
-    // http://www.cplusplus.com/reference/cstdlib/div/
-
-    // Degrees per section
-    double degrees = 2 * CONST_PI / sections;
-
-    // The quotient. Determines the actual section. (0 - 59 or 0 - 3599)
-    int quot = angle / degrees;
-
-    // The remainder. Needed to check where in the section the arm is.
-    double rem = angle - quot * degrees;
-
-    // Change the quot to the next one, when the arm is halfway through.
-    if (rem > CONST_PI / sections) {
-        quot++;
-    }
-
-    // Change the last number to 0.
-    if (quot == sections) {
-        quot = 0;
-    }
-
-    double quotDegrees = quot * degrees;
-    double quotDegreesSin = CONST_RADIUS * sin(quotDegrees);
-    double quotDegreesCos = CONST_RADIUS * cos(quotDegrees);
-
-    // The actual endpoint coordinates.
-    int x1 = center.x() + quotDegreesSin;
-    int y1 = center.y() - quotDegreesCos;
-
-    // Set the visual arm enpoint positions.
-    int x1Arm = x1 - CONST_SIZE / 1.5;
-    int y1Arm = y1 - CONST_SIZE * 1.25;
-    arm->setGeometry(x1Arm, y1Arm, arm->geometry().width(), arm->geometry().height());
-
-    // Also return the actual point.
-    return QPoint(x1, y1);
 }
 
 // Returns the center of the central widget.
@@ -391,10 +345,28 @@ void LookingForAGoodTime::setClockNumbersGeometry(QPoint center)
     }
 }
 
-// Returns the sting equivalent of the time.
-// Can be used for both hours and minutes.
+// Returns the sting equivalent of the hour.
+QString LookingForAGoodTime::getHourString(int time)
+{
+    switch (time) {
+        case 1:     case 13:            return "een";
+        case 2:     case 14:            return "twee";
+        case 3:     case 15:            return "drie";
+        case 4:     case 16:            return "vier";
+        case 5:     case 17:            return "vijf";
+        case 6:     case 18:            return "zes";
+        case 7:     case 19:            return "zeven";
+        case 8:     case 20:            return "acht";
+        case 9:     case 21:            return "negen";
+        case 10:    case 22:            return "tien";
+        case 11:    case 23:            return "elf";
+        default:                        return "twaalf";
+    }
+}
+
+// Returns the sting equivalent of the minute.
 // NOTE: When the time is 15 or 30, retuns 'kwart' and 'half'.
-QString LookingForAGoodTime::getTimeString(int time)
+QString LookingForAGoodTime::getMinuteString(int time)
 {
     switch (time) {
         case 1:     case 29:            return "een";
@@ -428,8 +400,8 @@ void LookingForAGoodTime::setTimeLabel()
     }
 
     // Converts the ints to a readable string
-    QString hoursString = getTimeString(h);
-    QString minutesString = getTimeString(m % 30);
+    QString hoursString = getHourString(h);
+    QString minutesString = getMinuteString(m % 30);
 
 
     // Exact '[h] uur'

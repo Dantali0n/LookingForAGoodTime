@@ -30,14 +30,16 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
 
+    void keyPressEvent(QKeyEvent *) override;
+
 private:
     Ui::LookingForAGoodTime *ui;
 
-    QPoint setFinalPoint(QLabel* arm, int sections, double angle);
     QPoint getCentralWidgetFrameCenterPoint();
     QRect getHitbox(QLabel* arm);
     void setClockNumbersGeometry(QPoint center);
-    QString getTimeString(int time);
+    QString getHourString(int time);
+    QString getMinuteString(int time);
     void setTimeLabel();
 };
 
