@@ -417,8 +417,7 @@ QString LookingForAGoodTime::getMinuteString(int time)
         case 12:    case 18: case 0:    return "twaalf";
         case 13:    case 17:            return "dertien";
         case 14:    case 16:            return "viertien";
-        case 15:                        return "kwart";
-        default:                        return "half";
+        default:                        return "kwart";
     }
 }
 
@@ -446,7 +445,7 @@ void LookingForAGoodTime::setTimeLabel()
 
     // Exact 'half [h]'
     if (m == 30) {
-        ui->clockNameLabel->setText(minutesString + " " + hoursString);
+        ui->clockNameLabel->setText("half " + hoursString);
         return;
     }
 
