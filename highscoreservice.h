@@ -15,15 +15,16 @@ public:
     HighscoreService();
     ~HighscoreService();
 
+    std::vector<HighscoreModel*> getTop10();
     std::vector<HighscoreModel*> get();
-    HighscoreModel* get(uint64_t id);
+    HighscoreModel* get(int id);
 
     void put(std::vector<HighscoreModel> hs);
     void put(HighscoreModel hs);
 
-    void patch(uint64_t id, HighscoreModel hs);
+    void patch(int id, HighscoreModel hs);
 
-    void remove(uint64_t id);
+    void remove(int id);
 protected:
     const static char* DATABASE_NAME;
     static sqlite3* db;
@@ -32,9 +33,11 @@ protected:
 
     // Database queries
     const static char* CREATE_DATABSE_IF_NOT_EXIST;
+    const static char* GET_ALL_BY_SCORE_LIMIT_10;
     const static char* GET_ALL;
     const static char* GET_ID;
     const static char* PUT;
+    const static char* DELETE;
 };
 
 #endif // HIGHSCORESERVICE_H

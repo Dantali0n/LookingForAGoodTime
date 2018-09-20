@@ -14,6 +14,8 @@ public:
     QString name;
     QDateTime datetime;
     uint64_t score;
+
+    const static char* DATE_FORMAT;
 };
 
 #endif // HIGHSCOREMODEL_H
