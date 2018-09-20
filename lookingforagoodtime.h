@@ -24,6 +24,10 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_highscoresButton_clicked();
+
+    void on_backButton_clicked();
+
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;

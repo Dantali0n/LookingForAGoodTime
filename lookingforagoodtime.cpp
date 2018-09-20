@@ -1,5 +1,9 @@
+#include <QStringListModel>
+#include <QStringList>
 #include <QMouseEvent>
 #include <QPainter>
+
+#include <sstream>
 #include <math.h>
 
 #include "lookingforagoodtime.h"
@@ -21,22 +25,21 @@ LookingForAGoodTime::LookingForAGoodTime(QWidget *parent) :
     ui->setupUi(this);    
 
     HighscoreService hs = HighscoreService();
-    HighscoreService hs2 = HighscoreService();
-    std::vector<HighscoreModel*> data = hs.getTop10();
+//    std::vector<HighscoreModel*> data = hs.getTop10();
 
-    for (std::vector<HighscoreModel*>::iterator it = data.begin() ; it != data.end(); ++it)
-    {
-        fprintf(stderr, "%i %s %lu \n", (*it)->id, (*it)->name.toStdString().c_str(), (*it)->score);
-        delete (*it);
-    }
+//    for (std::vector<HighscoreModel*>::iterator it = data.begin() ; it != data.end(); ++it)
+//    {
+//        fprintf(stderr, "%i %s %lu \n", (*it)->id, (*it)->name.toStdString().c_str(), (*it)->score);
+//        delete (*it);
+//    }
 
 //    hs.remove(4);
 //    HighscoreModel* datum = hs.get(1);
-//    HighscoreModel habba = HighscoreModel();
-//    habba.datetime = QDateTime::fromString("2018-01-01 12:34:22", HighscoreModel::DATE_FORMAT);
-//    habba.name = QString::fromStdString("timothy");
-//    habba.score = 6400;
-//    hs.put(habba);
+//      HighscoreModel habba = HighscoreModel();
+//      habba.datetime = QDateTime::fromString("2018-01-01 12:34:22", HighscoreModel::DATE_FORMAT);
+//      habba.name = QString::fromStdString("Spaghetti");
+//      habba.score = 23000;
+//      hs.put(habba);
 
     // Create Analog Clock
     QRect mainRect = ui->stackedWidget->geometry();
@@ -165,4 +168,32 @@ void LookingForAGoodTime::onMouseEvent(const QString &eventName, const QPoint &p
 void LookingForAGoodTime::on_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(--pageIndex);
+}
+
+void LookingForAGoodTime::on_highscoresButton_clicked()
+{
+    HighscoreService hs = HighscoreService();
+    std::vector<HighscoreModel*> top10 = hs.getTop10();
+    QStringListModel* model = new QStringListModel(this);
+    QStringList list;
+
+    uint64_t rank = 1;
+    for (std::vector<HighscoreModel*>::iterator it = top10.begin() ; it != top10.end(); ++it)
+    {
+        std::ostringstream convert;
+        convert << rank << " - ";
+        convert << (*it)->name.toStdString() << " - ";
+        convert << (*it)->score;
+        list << QString::fromStdString(convert.str());
+        delete (*it);
+        rank++;
+    }
+    model->setStringList(list);
+    ui->highscoreList->setModel(model);
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void LookingForAGoodTime::on_backButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }

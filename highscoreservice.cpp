@@ -49,6 +49,14 @@ HighscoreService::HighscoreService()
         {
             fprintf(stderr, "Opened database successfully\n");
         }
+
+        // Upon first connection attempt to create required tables if they do not exist.
+        char* zErrMsg = nullptr;
+        int rc = sqlite3_exec(db, HighscoreService::CREATE_DATABSE_IF_NOT_EXIST, callback, nullptr, &zErrMsg);
+        if( rc != SQLITE_OK ){
+           fprintf(stderr, "SQL error: %s\n", zErrMsg);
+           sqlite3_free(zErrMsg);
+        }
     }
     else {
         fprintf(stderr, "Already have database connection :)\n");
@@ -56,13 +64,6 @@ HighscoreService::HighscoreService()
 
     // increment references count to keep track of active HighscoreService isntances
     ref++;
-
-    char* zErrMsg = nullptr;
-    int rc = sqlite3_exec(db, HighscoreService::CREATE_DATABSE_IF_NOT_EXIST, callback, nullptr, &zErrMsg);
-    if( rc != SQLITE_OK ){
-       fprintf(stderr, "SQL error: %s\n", zErrMsg);
-       sqlite3_free(zErrMsg);
-    }
 
     /*char* sql = "INSERT INTO HIGHSCORE(name, datetime, score) "  \
             "VALUES ('Paul', '1993-12-12 22:12:00', 20000); ";
@@ -81,6 +82,7 @@ HighscoreService::~HighscoreService()
     {
         fprintf(stderr, "Closing database connection\n");
         sqlite3_close(db);
+        db = nullptr;
     }
     else {
         fprintf(stderr, "Not the last reference not closing database connection\n");
