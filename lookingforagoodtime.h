@@ -46,6 +46,12 @@ private slots:
 
     void on_speachBackButton_clicked();
 
+    void on_freePlaySubmitButton_clicked();
+
+    void on_submitPageSubmitButton_clicked();
+
+    void on_nameField_textEdited(const QString &arg1);
+
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;

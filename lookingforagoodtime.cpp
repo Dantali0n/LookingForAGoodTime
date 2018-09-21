@@ -7,6 +7,7 @@
 #include <math.h>
 
 #include "highscoreservice.h"
+#include "highscoremodel.h"
 #include "lookingforagoodtime.h"
 #include "ui_lookingforagoodtime.h"
 
@@ -507,4 +508,27 @@ void LookingForAGoodTime::on_digitalBackButton_clicked()
 void LookingForAGoodTime::on_speachBackButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(pageIndex = 3);
+}
+
+void LookingForAGoodTime::on_freePlaySubmitButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(pageIndex = 8);
+}
+
+void LookingForAGoodTime::on_submitPageSubmitButton_clicked()
+{
+    HighscoreModel model;
+    model.name = ui->nameField->text();
+    model.score = ui->scoreField->text().toULong();
+    HighscoreService service;
+    service.put(model);
+    on_highscoresButton_clicked();
+    ui->nameField->clear();
+    ui->scoreField->clear();
+
+}
+
+void LookingForAGoodTime::on_nameField_textEdited(const QString &arg1)
+{
+
 }
