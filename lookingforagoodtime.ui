@@ -36,7 +36,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="mainMenu">
        <property name="sizePolicy">
@@ -198,7 +198,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Back</string>
+         <string>Terug</string>
         </property>
        </widget>
        <widget class="QTimeEdit" name="timeEdit">
@@ -244,7 +244,7 @@
           <item row="0" column="0">
            <widget class="QPushButton" name="backButton">
             <property name="text">
-             <string>back</string>
+             <string>Terug</string>
             </property>
            </widget>
           </item>
@@ -258,7 +258,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Highscore</string>
+           <string>Top Tien Spelers</string>
           </property>
          </widget>
         </item>
@@ -434,7 +434,7 @@
      <x>0</x>
      <y>0</y>
      <width>490</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
